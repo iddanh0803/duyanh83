@@ -12,12 +12,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Role {
+@ToString
+public class Permission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @ManyToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "role_permission",
+            joinColumns = @JoinColumn(name = "permission_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     @JsonIgnore
-    private List<Permission> permissionList;
+    private List<Role> role;
 }

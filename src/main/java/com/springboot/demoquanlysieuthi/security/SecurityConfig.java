@@ -51,8 +51,8 @@ public class SecurityConfig{
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/api/v1/auth/**").permitAll()
-                .requestMatchers("/create-order").hasRole("SALER")
-                .requestMatchers("/create-import-ticket").hasRole("ACCOUNTANT")
+                .requestMatchers("/create-order").hasAuthority("create-order")
+                .requestMatchers("/create-import-ticket").hasAuthority("create-import")
                 .anyRequest().authenticated()
         );
         http.sessionManagement(session -> session

@@ -1,5 +1,6 @@
 package com.springboot.demoquanlysieuthi.security;
 
+import com.springboot.demoquanlysieuthi.entity.Role;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Collection;
 
 @Slf4j
 @Component
@@ -44,6 +48,7 @@ public class CustomFilter extends OncePerRequestFilter {
         String userEmail = jwtUtils.extractUsername(jwtToken);
         log.info("userEmail : {}", userEmail);
 
+        Collection<GrantedAuthority> authority = jwtUtils.extractAuthority(jwtToken);
         // Check email is not null and security context has not been set
         if (userEmail != null  && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = customEmployeeDetailService.loadUserByUsername(userEmail);
@@ -56,7 +61,7 @@ public class CustomFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
-                        userDetails.getAuthorities()
+                        authority
                 );
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);

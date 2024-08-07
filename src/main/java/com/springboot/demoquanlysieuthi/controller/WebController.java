@@ -6,6 +6,7 @@ import com.springboot.demoquanlysieuthi.model.request.OrderRequest;
 import com.springboot.demoquanlysieuthi.model.request.ProductTypeRequest;
 import com.springboot.demoquanlysieuthi.service.ImportService;
 import com.springboot.demoquanlysieuthi.service.OrderService;
+import com.springboot.demoquanlysieuthi.service.PermissionService;
 import com.springboot.demoquanlysieuthi.service.ProductTypeService;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.http.HttpStatus;
@@ -18,10 +19,12 @@ public class WebController {
     private final OrderService orderService;
     private final ProductTypeService productTypeService;
     private final ImportService importService;
-    public WebController(OrderService orderService, ProductTypeService productTypeService, ImportService importService) {
+    private final PermissionService permissionService;
+    public WebController(OrderService orderService, ProductTypeService productTypeService, ImportService importService, PermissionService permissionService) {
         this.orderService = orderService;
         this.productTypeService = productTypeService;
         this.importService = importService;
+        this.permissionService = permissionService;
     }
     @GetMapping("/order/{id}")
     @PreAuthorize("hasRole('ACCOUNTANT')")
@@ -40,5 +43,9 @@ public class WebController {
     @PostMapping("/create-import-ticket")
     public ResponseEntity<?> creatImportTicket(@RequestBody ImportRequest request){
         return new ResponseEntity<>(importService.createImport(request), HttpStatus.CREATED);
+    }
+    @GetMapping("/permission")
+    public ResponseEntity<?> getPermission(){
+        return ResponseEntity.ok(permissionService.getPermission());
     }
 }

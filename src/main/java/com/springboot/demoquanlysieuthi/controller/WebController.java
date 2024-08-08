@@ -8,11 +8,17 @@ import com.springboot.demoquanlysieuthi.service.ImportService;
 import com.springboot.demoquanlysieuthi.service.OrderService;
 import com.springboot.demoquanlysieuthi.service.PermissionService;
 import com.springboot.demoquanlysieuthi.service.ProductTypeService;
+import io.jsonwebtoken.JweHeader;
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.Jwts;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.Map;
 
 @RestController
 public class WebController {
@@ -46,6 +52,7 @@ public class WebController {
     }
     @GetMapping("/permission")
     public ResponseEntity<?> getPermission(){
-        return ResponseEntity.ok(permissionService.getPermission());
+        return ResponseEntity.ok(permissionService.getPermission2());
     }
+
 }

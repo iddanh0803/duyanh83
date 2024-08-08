@@ -48,7 +48,9 @@ public class CustomFilter extends OncePerRequestFilter {
         String userEmail = jwtUtils.extractUsername(jwtToken);
         log.info("userEmail : {}", userEmail);
 
+        // Get permission form token
         Collection<GrantedAuthority> authority = jwtUtils.extractAuthority(jwtToken);
+
         // Check email is not null and security context has not been set
         if (userEmail != null  && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = customEmployeeDetailService.loadUserByUsername(userEmail);

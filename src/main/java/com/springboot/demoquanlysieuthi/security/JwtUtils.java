@@ -35,7 +35,6 @@ public class JwtUtils {
                 .signWith(getKey())
                 .compact();
     }
-
     // Get Claims from token
     private Claims extractAllClaims(String token) {
         Jws<Claims> jws = Jwts.parser()
@@ -43,7 +42,7 @@ public class JwtUtils {
                 .build().parseSignedClaims(token);
         return jws.getPayload();
     }
-
+    // get permission from token
     public Collection<GrantedAuthority> extractAuthority(String token) {
         Collection<GrantedAuthority> authorityCollection = new ArrayList<>();
         Claims claims = extractAllClaims(token);

@@ -20,9 +20,6 @@ public class PermissionService {
         this.permissionRepository = permissionRepository;
     }
 
-    public List<Permission> getPermission() {
-        return permissionRepository.findAll();
-    }
     public Collection<GrantedAuthority> getPermission2(){
         CustomEmployeeDetail employeeDetail = (CustomEmployeeDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return (Collection<GrantedAuthority>) employeeDetail.getAuthorities();
